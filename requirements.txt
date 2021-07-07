@@ -21,6 +21,8 @@ gcsfs
 google-cloud-storage
 mlflow
 s3fs
+spotipy==2.18.0
+beautifulsoup4==4.9.3
 
 # utilities
 six>=1.14
