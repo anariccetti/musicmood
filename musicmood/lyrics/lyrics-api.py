@@ -30,8 +30,8 @@ class MusicData():
 
         return results
 
-    def to_lower_case():
-        pass 
+    def to_lower_case(lyrics):
+        results = lyrics.lower()
 
     def remove_lyrics_observations():
         pass
