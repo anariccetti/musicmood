@@ -3,6 +3,7 @@ import spotipy
 from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+import string 
 
 
 class MusicData():
@@ -36,8 +37,9 @@ class MusicData():
     def remove_lyrics_observations():
         pass
     
-    def remove_punctuation():
-        pass
+    def remove_punctuation(lyrics):
+        for punctuation in string.punctuation:
+        results = lyrics.replace(punctuation, '') 
 
     def remove_stop_words():
         pass
