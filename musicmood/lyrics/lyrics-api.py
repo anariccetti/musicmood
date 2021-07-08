@@ -5,31 +5,6 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 
 
-print()
-
-# client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret)
-# sp = spotipy.Spotify(client_credentials_manager = client_credentials_manager)
-
-
-
-
-
-
-
-# items = results['artists']['items']
-# if len(items) > 0:
-#     artist = items[0]
-#     print(artist['name'], artist['images'][0]['url'])
-
-#function to attach lyrics onto data frame
-#artist_name should be inserted as a string
-# def lyrics_onto_frame(df1, artist_name):
-#     for i,x in enumerate(df1['track']):
-#         test = scrape_lyrics(artist_name, x)
-#         df1.loc[i, 'lyrics'] = test
-#     return df1
-
-
 class MusicData():
 
     def scrape_lyrics(self, artistname, songname):
@@ -55,8 +30,32 @@ class MusicData():
 
         return results
 
+    def to_lower_case():
+        pass 
+
+    def remove_lyrics_observations():
+        pass
+    
+    def remove_punctuation():
+        pass
+
+    def remove_stop_words():
+        pass
+    
+    def get_clean_song(self,artistname, songname):
+        lyrics = self.scrape_lyrics(artistname, songname)
+
+        lyrics = self.remove_lyrics_observations(lyrics)
+
+        lyrics = self.remove_punctuation(lyrics)
+
+        lyrics = self.remove_stop_words(lyrics)
+
+        return lyrics
 
 
-# print(MusicData().scrape_lyrics("Imagine dragons", "Believer"))
+print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 
-print(MusicData().search_spotify('hysteria'))
+
+
+# print(MusicData().search_spotify('hysteria'))
