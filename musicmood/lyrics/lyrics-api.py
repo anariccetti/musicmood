@@ -7,7 +7,7 @@ import os
 
 class MusicData():
 
-    def scrape_lyrics(self, artistname, songname):
+    def scrape_lyrics(self, artistname, songname, i=0):
         artistname_clean = str(artistname.replace(' ','-')) if ' ' in artistname else str(artistname)
         songname_clean = str(songname.replace(' ','-')) if ' ' in songname else str(songname)
         page = requests.get('https://genius.com/'+ artistname_clean + '-' + songname_clean + '-' + 'lyrics')
@@ -18,7 +18,10 @@ class MusicData():
             lyrics = lyrics1.get_text()
         elif lyrics2:
             lyrics = lyrics2.get_text()
-        elif lyrics1 == lyrics2 == None:
+        elif lyrics1 == lyrics2 == None and i  < 3:
+            i += 1
+            lyrics = self.scrape_lyrics(artistname.title(), songname.title(), i)
+        else:
             print("Lyrics Not Fund")
             lyrics = None
         return lyrics
@@ -53,9 +56,6 @@ class MusicData():
 
         return lyrics
 
-
-print(MusicData().scrape_lyrics("Metallica", "creeping death"))
-
-
+# print(MusicData().scrape_lyrics("the beatles", "HERE COMES THE SUN"))
 
 # print(MusicData().search_spotify('hysteria'))
