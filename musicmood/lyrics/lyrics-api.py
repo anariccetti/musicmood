@@ -5,7 +5,7 @@ from spotipy.oauth2 import SpotifyClientCredentials
 import os
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-
+from nltk.stem import WordNetLemmatizer
 
 
 class MusicData():
@@ -28,7 +28,7 @@ class MusicData():
 
 
     def search_spotify(self, query):
-        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id='be5bbf6003b14fd2a2226df37d633d41', client_secret='c5550fa66cf645f0a843de3e6a775f0d'))
+        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id='', client_secret=''))
         results = spotify.search(q='track:' + query, type='track')
 
         return results
@@ -48,15 +48,19 @@ class MusicData():
         lyrics = [w for w in word_tokens if not w in stop_words]
         return lyrics
 
+    def lemmatize_words(self,lyrics):
+        #in progress
+        lemmatizer = WordNetLemmatizer()
+        lemmatized = [lemmatizer.lemmatize(word) for word in lyrics]
+        return lemmatized
+
+
     def get_clean_song(self,artistname, songname):
         lyrics = self.scrape_lyrics(artistname, songname)
-
         lyrics = self.remove_lyrics_observations(lyrics)
-
         lyrics = self.remove_punctuation(lyrics)
-
         lyrics = self.remove_stop_words(lyrics)
-
+        lyrics = self.lemmatize_words(lyrics)
         return lyrics
 
 
