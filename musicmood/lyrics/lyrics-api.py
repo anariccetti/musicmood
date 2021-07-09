@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import pandas as pd
+import string 
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
 
 class MusicData():
@@ -37,21 +40,24 @@ class MusicData():
         print(self.client, self.secret)
         spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=self.client, client_secret=self.secret))
         results = spotify.search(q='track:' + query, type='track')
-
         return results
 
-    def to_lower_case():
-        pass 
+    def to_lower_case(lyrics):
+        results = lyrics.lower()
 
     def remove_lyrics_observations():
         pass
     
-    def remove_punctuation():
-        pass
+    def remove_punctuation(lyrics):
+        for punctuation in string.punctuation:
+        results = lyrics.replace(punctuation, '') 
 
-    def remove_stop_words():
-        pass
-    
+    def remove_stop_words(self,lyrics):
+        stop_words = set(stopwords.words('english'))
+        word_tokens = word_tokenize(lyrics)
+        lyrics = [w for w in word_tokens if not w in stop_words]
+        return lyrics
+
     def get_clean_song(self,artistname, songname):
         lyrics = self.scrape_lyrics(artistname, songname)
 
@@ -84,11 +90,11 @@ class MusicData():
 
         df.to_csv("rock00s_v2.csv",index=False)
 
-# print(MusicData().scrape_lyrics("Metallica", "creeping death"))
+
+#print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 
 
 if __name__ == '__main__':
     # print(MusicData().search_spotify('hysteria'))
     print(MusicData().export_playlist_data())
 
-    
