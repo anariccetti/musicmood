@@ -4,10 +4,12 @@ import spotipy
 from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+import re
 import pandas as pd
 import string 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+
 
 
 class MusicData():
@@ -27,6 +29,7 @@ class MusicData():
             lyrics = lyrics1.get_text()
         elif lyrics2:
             lyrics = lyrics2.get_text()
+
         elif lyrics1 == lyrics2 == None and i  < 3:
             i += 1
             lyrics = self.scrape_lyrics(artistname.title(), songname.title(), i)
@@ -45,8 +48,8 @@ class MusicData():
     def to_lower_case(lyrics):
         results = lyrics.lower()
 
-    def remove_lyrics_observations():
-        pass
+    def remove_lyrics_observations(lyrics):
+        results = re.sub(r'\[[^()]*\]', '', lyrics)
     
     def remove_punctuation(lyrics):
         for punctuation in string.punctuation:
