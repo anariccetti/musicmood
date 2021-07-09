@@ -90,8 +90,9 @@ class MusicData():
 
         df.to_csv("rock00s_v2.csv",index=False)
 
-
-#print(MusicData().scrape_lyrics("Metallica", "creeping death"))
+# print(MusicData().scrape_lyrics("the beatles", "HERE COMES THE SUN"))
+# print(MusicData().scrape_lyrics("Metallica", "creeping death"))
+# print(MusicData().search_spotify('hysteria'))
 
 
 if __name__ == '__main__':
