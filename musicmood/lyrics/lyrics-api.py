@@ -3,9 +3,9 @@ import spotipy
 from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+import string 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-
 
 
 class MusicData():
@@ -38,9 +38,10 @@ class MusicData():
 
     def remove_lyrics_observations():
         pass
-
-    def remove_punctuation(conflito):
-        pass
+    
+    def remove_punctuation(lyrics):
+        for punctuation in string.punctuation:
+        results = lyrics.replace(punctuation, '') 
 
     def remove_stop_words(self,lyrics):
         stop_words = set(stopwords.words('english'))
