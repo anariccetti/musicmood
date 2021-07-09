@@ -4,6 +4,8 @@ from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
 import string 
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
 
 
 class MusicData():
@@ -26,13 +28,13 @@ class MusicData():
 
 
     def search_spotify(self, query):
-        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id='', client_secret=''))
+        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id='be5bbf6003b14fd2a2226df37d633d41', client_secret='c5550fa66cf645f0a843de3e6a775f0d'))
         results = spotify.search(q='track:' + query, type='track')
 
         return results
 
-    def to_lower_case():
-        pass 
+    def to_lower_case(lyrics):
+        results = lyrics.lower()
 
     def remove_lyrics_observations():
         pass
@@ -41,9 +43,12 @@ class MusicData():
         for punctuation in string.punctuation:
         results = lyrics.replace(punctuation, '') 
 
-    def remove_stop_words():
-        pass
-    
+    def remove_stop_words(self,lyrics):
+        stop_words = set(stopwords.words('english'))
+        word_tokens = word_tokenize(lyrics)
+        lyrics = [w for w in word_tokens if not w in stop_words]
+        return lyrics
+
     def get_clean_song(self,artistname, songname):
         lyrics = self.scrape_lyrics(artistname, songname)
 
@@ -56,7 +61,8 @@ class MusicData():
         return lyrics
 
 
-print(MusicData().scrape_lyrics("Metallica", "creeping death"))
+
+#print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 
 
 
