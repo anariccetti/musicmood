@@ -3,7 +3,7 @@ import spotipy
 from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
-
+import re
 
 class MusicData():
 
@@ -19,7 +19,7 @@ class MusicData():
         elif lyrics2:
             lyrics = lyrics2.get_text()
         elif lyrics1 == lyrics2 == None:
-            print("Lyrics Not Fund")
+            print("Lyrics Not Found")
             lyrics = None
         return lyrics
 
@@ -33,8 +33,8 @@ class MusicData():
     def to_lower_case():
         pass 
 
-    def remove_lyrics_observations():
-        pass
+    def remove_lyrics_observations(lyrics):
+        results = re.sub(r'\[[^()]*\]', '', lyrics)
     
     def remove_punctuation():
         pass
