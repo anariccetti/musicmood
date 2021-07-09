@@ -1,14 +1,20 @@
+import numpy as np
 import requests
 import spotipy
 from bs4 import BeautifulSoup
 from spotipy.oauth2 import SpotifyClientCredentials
 import os
+import pandas as pd
+import string 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
 
-
 class MusicData():
+
+    def __init__(self):
+        self.client = os.getenv('SPOTIPY_CLIENT_ID')
+        self.secret = os.getenv('SPOTIPY_CLIENT_SECRET')
 
     def scrape_lyrics(self, artistname, songname, i=0):
         artistname_clean = str(artistname.replace(' ','-')) if ' ' in artistname else str(artistname)
@@ -31,19 +37,20 @@ class MusicData():
 
 
     def search_spotify(self, query):
-        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id='be5bbf6003b14fd2a2226df37d633d41', client_secret='c5550fa66cf645f0a843de3e6a775f0d'))
+        print(self.client, self.secret)
+        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=self.client, client_secret=self.secret))
         results = spotify.search(q='track:' + query, type='track')
-
         return results
 
-    def to_lower_case():
-        pass
+    def to_lower_case(lyrics):
+        results = lyrics.lower()
 
     def remove_lyrics_observations():
         pass
-
-    def remove_punctuation(conflito):
-        pass
+    
+    def remove_punctuation(lyrics):
+        for punctuation in string.punctuation:
+        results = lyrics.replace(punctuation, '') 
 
     def remove_stop_words(self,lyrics):
         stop_words = set(stopwords.words('english'))
@@ -62,7 +69,33 @@ class MusicData():
 
         return lyrics
 
+    def export_playlist_data(self):
+        spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=self.client, client_secret=self.secret))
+
+        playlists = spotify.playlist('spotify:playlist:37i9dQZF1DX3oM43CtKnRV')
+        
+
+      
+        data = {"track":[],
+                "artist":[],
+                "lyrics":[]}
+        
+        for track in playlists['tracks']['items']:
+            data['track'].append(track['track']['name'])
+            data['artist'].append(track['track']['artists'][0]['name'])
+            data['lyrics'].append(self.scrape_lyrics(track['track']['artists'][0]['name'], track['track']['name'], i=0))
+        
+        
+        df = pd.DataFrame(data)
+
+        df.to_csv("rock00s_v2.csv",index=False)
 
 # print(MusicData().scrape_lyrics("the beatles", "HERE COMES THE SUN"))
 # print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 # print(MusicData().search_spotify('hysteria'))
+
+
+if __name__ == '__main__':
+    # print(MusicData().search_spotify('hysteria'))
+    print(MusicData().export_playlist_data())
+
