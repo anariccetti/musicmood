@@ -53,7 +53,7 @@ class MusicData():
     
     def remove_punctuation(lyrics):
         for punctuation in string.punctuation:
-        results = lyrics.replace(punctuation, '') 
+            results = lyrics.replace(punctuation, '') 
 
     def remove_stop_words(self,lyrics):
         stop_words = set(stopwords.words('english'))
@@ -78,7 +78,6 @@ class MusicData():
         playlists = spotify.playlist('spotify:playlist:37i9dQZF1DX3oM43CtKnRV')
         
 
-      
         data = {"track":[],
                 "artist":[],
                 "lyrics":[]}
@@ -93,7 +92,7 @@ class MusicData():
 
         df.to_csv("rock00s_v2.csv",index=False)
 
-print(MusicData().scrape_lyrics("metallica", "fuel"))
+# print(MusicData().scrape_lyrics("metallica", "fuel"))
 # print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 # print(MusicData().search_spotify('hysteria'))
 
