@@ -30,3 +30,6 @@ joblib
 memoized-property
 termcolor
 python-dotenv
+
+#Frontend
+streamlit
