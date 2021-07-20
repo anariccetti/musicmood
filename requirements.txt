@@ -33,3 +33,5 @@ python-dotenv
 
 #Frontend
 streamlit
+lyricsgenius
+tensorflow

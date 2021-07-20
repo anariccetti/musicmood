@@ -10,6 +10,7 @@ import string
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 
+import lyricsgenius
 
 
 class MusicData():
@@ -17,6 +18,7 @@ class MusicData():
     def __init__(self):
         self.client = os.getenv('SPOTIPY_CLIENT_ID')
         self.secret = os.getenv('SPOTIPY_CLIENT_SECRET')
+
 
     def scrape_lyrics(self, artistname, songname, i=0):
         artistname_clean = str(artistname.replace(' ','-')) if ' ' in artistname else str(artistname)
@@ -92,6 +94,7 @@ class MusicData():
 
         df.to_csv("rock00s_v2.csv",index=False)
 
+    def search_artists_songs(self
 # print(MusicData().scrape_lyrics("metallica", "fuel"))
 # print(MusicData().scrape_lyrics("Metallica", "creeping death"))
 # print(MusicData().search_spotify('hysteria'))
