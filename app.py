@@ -42,6 +42,8 @@ def main():
                 
 
             if st.sidebar.button("Get Music Mood"):
+
+                ## Carregar modelo de sentimento
                 classifier = pipeline("zero-shot-classification")
                 candidate_labels = ["anger","sadness","passion","happiness"]
                 hypothesis = "The emotion of this music is {}."
