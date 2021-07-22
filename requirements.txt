@@ -35,3 +35,4 @@ python-dotenv
 streamlit
 lyricsgenius
 tensorflow
+plotly

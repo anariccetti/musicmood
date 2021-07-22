@@ -3,19 +3,25 @@ import streamlit as st
 import lyricsgenius as lg
 from transformers import pipeline
 import base64
+import plotly.express as px
 
 
 def main():
-    st.title('Music Mood')
-    st.sidebar.title('Music Mood')
+    
+    st.sidebar.title('Menu')
 
     # st.image('style/musicmood.png')
-    set_png_as_page_bg('musicmood.png')
-    application_selection = st.sidebar.selectbox('Select application', ['Lyrics Analysis', "Playlist Creator"])
+    
+    application_selection = st.sidebar.selectbox('Select application', ['Home','Lyrics Analysis', "Playlist Creator"])
+
+    if application_selection == 'Home':
+        set_png_as_page_bg('music_mood_home.png')
 
     ## Sentiment Analysis
     if application_selection == 'Lyrics Analysis':
-        
+        st.title('Music Mood')
+        set_png_as_page_bg('musicmood.png')
+
         st.sidebar.title("Search Lyrics")
         song = st.sidebar.text_input('Enter song name')
         artist = st.sidebar.text_input('Enter artist name')
@@ -35,7 +41,7 @@ def main():
 
                 
 
-            if st.sidebar.button("Get music Mood"):
+            if st.sidebar.button("Get Music Mood"):
                 classifier = pipeline("zero-shot-classification")
                 candidate_labels = ["anger","sadness","passion","happiness"]
                 hypothesis = "The emotion of this music is {}."
@@ -43,14 +49,15 @@ def main():
                 mood = classifier(lyrics.lyrics, candidate_labels, hypothesis_template=hypothesis)
                 
                 st.markdown("""
-                ## Music Moods
 
-                Music Moods are a way of describing the emotions that are associated with music. \n\n
-                The moods of the selected music are:
+                Music Moods are a way of describing the emotions that are associated with music using NLP models. \n\n
                 """)
                 
-                for label, score in zip(mood['labels'],mood['scores']):
-                    st.write(f"{label}: {score}")
+                
+                # for label, score in zip(mood['labels'],mood['scores']):
+                #     st.write(f"{label}: {score}")
+                mood_dict = {k:v for k,v in zip(mood['labels'],mood['scores'])}
+                plot_mood(mood_dict, song)
                 
                
 
@@ -76,7 +83,16 @@ def set_png_as_page_bg(png_file):
     st.markdown(page_bg_img, unsafe_allow_html=True)
     return
 
-
+def plot_mood(mood_dict, song):
+    df = pd.DataFrame([mood_dict])
+    df = df.transpose().reset_index().rename(columns={'index':'moods',0:'percentual'})
+    
+    fig = px.pie(df, values='percentual', names='moods', title=f'Moods for {song}', color='moods',
+             color_discrete_map={'anger':'darkred',
+                                 'happiness':'green',
+                                 'sadness':'orange',
+                                 'passion':'purple'})
+    st.plotly_chart(fig)
        
 
 if __name__ == '__main__':
