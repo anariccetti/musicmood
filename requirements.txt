@@ -8,7 +8,10 @@ wheel>=0.29
 numpy
 pandas
 scikit-learn
-transformers==4.9.1
+simpletransformers
+scipy
+torch
+
 
 # tests/linter
 black
