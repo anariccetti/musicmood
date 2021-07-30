@@ -43,23 +43,14 @@ def main():
 
             if st.sidebar.button("Get Music Mood"):
 
-                ## Carregar modelo de sentimento
-                classifier = pipeline("zero-shot-classification")
-                candidate_labels = ["anger","sadness","passion","happiness"]
-                hypothesis = "The emotion of this music is {}."
-
-                mood = classifier(lyrics.lyrics, candidate_labels, hypothesis_template=hypothesis)
-                
+                # requests.get(url, {"lyrics": lyrics.lyrics})
                 st.markdown("""
 
                 Music Moods are a way of describing the emotions that are associated with music using NLP models. \n\n
                 """)
                 
                 
-                # for label, score in zip(mood['labels'],mood['scores']):
-                #     st.write(f"{label}: {score}")
-                mood_dict = {k:v for k,v in zip(mood['labels'],mood['scores'])}
-                plot_mood(mood_dict, song)
+                st.write()
                 
                
 
