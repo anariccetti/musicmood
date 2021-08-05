@@ -50,7 +50,7 @@ def main():
                     model = ClassificationModel("xlnet", "models",use_cuda=False)
                     predictions, raw_outputs = model.predict([lyrics.lyrics])
                     probabilities = softmax(raw_outputs, axis=1)
-                    st.write(probabilities)
+                    #st.write(probabilities)
 
                     st.markdown(f"O sentimento predomintante de '{song}' é ...")
 
@@ -109,25 +109,29 @@ def set_png_as_page_bg(png_file):
     # st.plotly_chart(fig)
 
 def plot_mood(df):
-    st.write(df)
+    #st.write(df)
     sentiments = df.to_numpy()[0]
     fig = go.Figure(data=[
-    go.Bar(name='happiness',
+    go.Bar(name='',
            x= [''],
            y= [sentiments[0]],
-           hovertemplate= "Happiness: %{y:.0%}<br>"),
-    go.Bar(name='passion',
+           marker_color ="#85bf5e",
+           hovertemplate= "Happiness: %{y:.0%}"),
+    go.Bar(name='',
            x= [''],
            y= [sentiments[1]],
-           hovertemplate= "Passion: %{y:.0%}<br>" ),
-    go.Bar(name='anger',
+           marker_color = "#fec778",
+           hovertemplate= "Passion: %{y:.0%}" ),
+    go.Bar(name='',
            x= [''],
            y= [sentiments[2]],
-           hovertemplate= "Anger: %{y:.0%}<br>" ),
-    go.Bar(name='sadness',
+            marker_color = "#e0342c",
+           hovertemplate= "Anger: %{y:.0%}" ),
+    go.Bar(name='',
            x= [''],
            y= [sentiments[3]],
-           hovertemplate= "Sadness: %{y:.0%}<br>" ),
+           marker_color="#73c3ed",
+           hovertemplate= "Sadness: %{y:.0%}" ),
     ])
     fig.update_layout(barmode='stack')
     fig.update_layout(showlegend=False)
