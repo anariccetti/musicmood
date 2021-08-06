@@ -6,6 +6,8 @@ import plotly.express as px
 import plotly.graph_objects as go
 from simpletransformers.classification import ClassificationModel
 from scipy.special import softmax
+import requests
+import json
 
 
 def main():
@@ -47,21 +49,21 @@ def main():
 
                 if st.sidebar.checkbox("Get Music Mood"):
 
-                    model = ClassificationModel("xlnet", "models",use_cuda=False)
-                    predictions, raw_outputs = model.predict([lyrics.lyrics])
-                    probabilities = softmax(raw_outputs, axis=1)
-                    #st.write(probabilities)
+                    url = st.secrets["url"]
+                    response = requests.post(url, data=json.dumps({"lyrics": lyrics.lyrics}))
+                    
+                    probabilities = json.loads(response.text)['response']
+
+                    p1, p2, p3, p4 = probabilities.replace('[','').replace(']','').split(' ')
+                    
+                    print(probabilities)
+                    #st.write(float(p1))
+                    percentages = [float(p1), float(p2), float(p3), float(p4)]
+                    #st.write(percentages)
 
                     st.markdown(f"O sentimento predomintante de '{song}' é ...")
 
-                    
-
-                    df_mood = pd.DataFrame(probabilities)
-                    #df_mood =df_mood.T
-                    #df_mood['song'] ='song'
-                    #df_mood['name'] = ['happiness', 'passion', 'anger','sadness']
-                    #st.write(df_mood)
-                    plot_mood(df_mood)
+                    plot_mood(percentages)
 
                     st.markdown("""
 
@@ -108,28 +110,28 @@ def set_png_as_page_bg(png_file):
 #                                  'passion':'purple'})
     # st.plotly_chart(fig)
 
-def plot_mood(df):
+def plot_mood(percentages):
     #st.write(df)
-    sentiments = df.to_numpy()[0]
+    #sentiments = df.to_numpy()[0]
     fig = go.Figure(data=[
     go.Bar(name='',
            x= [''],
-           y= [sentiments[0]],
+           y= [percentages[0]],
            marker_color ="#85bf5e",
            hovertemplate= "Happiness: %{y:.0%}"),
     go.Bar(name='',
            x= [''],
-           y= [sentiments[1]],
+           y= [percentages[1]],
            marker_color = "#fec778",
            hovertemplate= "Passion: %{y:.0%}" ),
     go.Bar(name='',
            x= [''],
-           y= [sentiments[2]],
+           y= [percentages[2]],
             marker_color = "#e0342c",
            hovertemplate= "Anger: %{y:.0%}" ),
     go.Bar(name='',
            x= [''],
-           y= [sentiments[3]],
+           y= [percentages[3]],
            marker_color="#73c3ed",
            hovertemplate= "Sadness: %{y:.0%}" ),
     ])
