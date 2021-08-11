@@ -9,22 +9,31 @@ from scipy.special import softmax
 import requests
 import json
 
-
 def main():
 
     application_selection = st.sidebar.selectbox('Select application', ['Home','Search Lyrics'])
 
     if application_selection == 'Home':
         set_png_as_page_bg('bkgr6.png')
+        st.title('')
+        st.title('')
 
-        st.title('')
-        st.title('')
-        
         st.title('Welcome to Music Mood!')
         st.title('🎤🎼🎹🥁🪘🎷🎺🪗🎸🪕🎻')
         st.markdown(f"Please select 'Search Lyrics' on the left menu ⬅️⬅️⬅️")
-        st.markdown(f"Write a song name and artist... Our AI will return one of the main feelings below:")
-        st.markdown(f"passion | happiness | anger | sadness")
+        st.markdown(f"Write a song name and artist... Our AI will return one (or more) of the main feelings below:")
+
+        passion = '<p style="color:pink; font-size: 20px;">passion</p>'
+        st.markdown(passion, unsafe_allow_html=True)
+
+        happiness = '<p style="color:green; font-size: 20px;">happiness</p>'
+        st.markdown(happiness, unsafe_allow_html=True)
+
+        anger = '<p style="color:red; font-size: 20px;">anger</p>'
+        st.markdown(anger, unsafe_allow_html=True)
+
+        sadness = '<p style="color:blue; font-size: 20px;">sadness</p>'
+        st.markdown(sadness, unsafe_allow_html=True)
 
     ## Sentiment Analysis
     if application_selection == 'Search Lyrics':
@@ -74,9 +83,9 @@ def main():
 
                     st.markdown(f"The main feelings of the song '{song.capitalize()}' from '{artist.capitalize()}' are...")
 
-                    st.image("turntable4_up.png")
+                    st.image("turntable_up6.png")
                     plot_mood(percentages)
-                    st.image("turntable4_down.png")
+                    st.image("turntable_down6.png")
 
                     st.markdown("""
 
