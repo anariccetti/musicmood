@@ -12,38 +12,46 @@ import json
 
 def main():
 
-    st.sidebar.title('Menu')
-
-    # st.image('style/musicmood.png')
-
-    application_selection = st.sidebar.selectbox('Select application', ['Home','Lyrics Analysis', "Playlist Creator"])
+    application_selection = st.sidebar.selectbox('Select application', ['Home','Search Lyrics'])
 
     if application_selection == 'Home':
-        set_png_as_page_bg('music_mood_home.png')
+        set_png_as_page_bg('bkgr6.png')
+
+        st.title('')
+        st.title('')
+        
+        st.title('Welcome to Music Mood!')
+        st.title('🎤🎼🎹🥁🪘🎷🎺🪗🎸🪕🎻')
+        st.markdown(f"Please select 'Search Lyrics' on the left menu ⬅️⬅️⬅️")
+        st.markdown(f"Write a song name and artist... Our AI will return one of the main feelings below:")
+        st.markdown(f"passion | happiness | anger | sadness")
 
     ## Sentiment Analysis
-    if application_selection == 'Lyrics Analysis':
-        st.title('Music Mood')
-        #set_png_as_page_bg('musicmood.png')
+    if application_selection == 'Search Lyrics':
+
+        st.sidebar.title("")
+        st.sidebar.title("")
 
         st.sidebar.title("Search Lyrics")
-        song = st.sidebar.text_input('Enter song name')
-        artist = st.sidebar.text_input('Enter artist name')
+        st.sidebar.title("")
+
+        song = st.sidebar.text_input('Enter song name:')
+        artist = st.sidebar.text_input('Enter artist name:')
 
         ## Call lyrics api
-        genius = lg.Genius(st.secrets["genius_secret"], skip_non_songs=True, excluded_terms=["(Remix)", "(Live)"], remove_section_headers=True)
+        genius = lg.Genius(st.secrets["genius_secret"], skip_non_songs=True, excluded_terms=["(Remix)", "(Live)", "URLCopyEmbedCopy"], remove_section_headers=True)
 
         if song is not "":
             try:
                 lyrics = genius.search_song(song, artist)
                 if lyrics is None:
-                    st.error("Lyrics not found")
+                    st.error("Lyrics not found, please check spelling or try again!")
             except:
-                 st.error("No lyrics found")
+                 st.error("Lyrics not found, please check spelling or try again!")
 
             if lyrics is not None:
                 if st.sidebar.checkbox('Show lyrics'):
-                    st.title(f"Lyrics for: {song}")
+                    st.title(f"{song.capitalize()} - {artist.capitalize()} (lyrics):")
                     st.write(lyrics.lyrics) 
 
 
@@ -61,13 +69,18 @@ def main():
                     percentages = [float(p1), float(p2), float(p3), float(p4)]
                     #st.write(percentages)
 
-                    st.markdown(f"O sentimento predomintante de '{song}' é ...")
+                    st.title('')
+                    st.title('')
 
+                    st.markdown(f"The main feelings of the song '{song.capitalize()}' from '{artist.capitalize()}' are...")
+
+                    st.image("turntable4_up.png")
                     plot_mood(percentages)
+                    st.image("turntable4_down.png")
 
                     st.markdown("""
 
-                    Music Moods are a way of describing the emotions that are associated with music using NLP models. \n\n
+                    Music Mood is a way of describing the emotions that are associated with song lyrics using NLP models. \n\n
                     """)
 
                     #for label, score in zip(mood['labels'],mood['scores']):
@@ -122,7 +135,7 @@ def plot_mood(percentages):
     go.Bar(name='',
            x= [''],
            y= [percentages[1]],
-           marker_color = "#fec778",
+           marker_color = "#ad7098",
            hovertemplate= "Passion: %{y:.0%}" ),
     go.Bar(name='',
            x= [''],
@@ -139,16 +152,16 @@ def plot_mood(percentages):
     fig.update_layout(showlegend=False)
     fig.update_xaxes(visible=False)
     fig.update_yaxes(visible=False)
-    fig.update_layout(height=800)
-    fig.update_layout(width=800)
-    fig.update_layout(paper_bgcolor='#0e1118')
-    fig.update_layout(plot_bgcolor='#0e1118')
+    fig.update_layout(height=700)
+    fig.update_layout(width=700)
+    fig.update_layout(paper_bgcolor='#7f7f7f')
+    fig.update_layout(plot_bgcolor='#7f7f7f')
     fig.add_shape(type="circle",
         xref="x", yref="y",
         x0=-0.7, y0=-0.3, x1=0.7, y1=1.3,
         line_color="#000",
         line =dict(
-            width=200
+            width=165
         )
     )
 
@@ -157,7 +170,7 @@ def plot_mood(percentages):
         x0=-0.5, y0=-0.1, x1=0.5, y1=1.1,
         line_color="#555",
         line =dict(
-            width=2
+            width=1
         )
     )
 
@@ -166,7 +179,7 @@ def plot_mood(percentages):
         x0=-0.6, y0=-0.2, x1=0.6, y1=1.2,
         line_color="#555",
         line =dict(
-            width=2
+            width=1
         )
     )
 
@@ -176,7 +189,7 @@ def plot_mood(percentages):
         x0=-0.7, y0=-0.3, x1=0.7, y1=1.3,
         line_color="#555",
         line =dict(
-            width=2
+            width=1
         )
     )
 
@@ -185,7 +198,7 @@ def plot_mood(percentages):
         x0=-0.8, y0=-0.4, x1=0.8, y1=1.4,
         line_color="#555",
         line =dict(
-            width=2
+            width=1
         )
     )
 
@@ -194,7 +207,7 @@ def plot_mood(percentages):
         x0=-0.9, y0=-0.5, x1=0.9, y1=1.5,
         line_color="#555",
         line =dict(
-            width=2
+            width=1
         )
     )
 
