@@ -23,17 +23,8 @@ def main():
         st.markdown(f"Please select 'Search Lyrics' on the left menu ⬅️⬅️⬅️")
         st.markdown(f"Write a song name and artist... Our AI will return one (or more) of the main feelings below:")
 
-        passion = '<p style="color:pink; font-size: 20px;">passion</p>'
-        st.markdown(passion, unsafe_allow_html=True)
-
-        happiness = '<p style="color:green; font-size: 20px;">happiness</p>'
-        st.markdown(happiness, unsafe_allow_html=True)
-
-        anger = '<p style="color:red; font-size: 20px;">anger</p>'
-        st.markdown(anger, unsafe_allow_html=True)
-
-        sadness = '<p style="color:blue; font-size: 20px;">sadness</p>'
-        st.markdown(sadness, unsafe_allow_html=True)
+        feelings = '<div style="display: flex"><p style="color:#ba26ff; font-size: 20px;">passion</p><p style="font-size: 20px; margin: 0px 10px;"> | </p><p style="color:#86ff57; font-size: 20px;">happiness</p><p style="font-size: 20px; margin: 0px 10px;"> | </p><p style="color:#ff3434; font-size: 20px;">anger</p><p style="font-size: 20px; margin: 0px 10px;"> | </p><p style="color:#5ed0ff; font-size: 20px;">sadness</p></div>'
+        st.markdown(feelings, unsafe_allow_html=True)
 
     ## Sentiment Analysis
     if application_selection == 'Search Lyrics':
